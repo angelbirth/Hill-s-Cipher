@@ -21,6 +21,7 @@ for i=1:r
   temp=mult_row(temp,i,modinv(temp(i,i),mod));
   temp=builtin("mod",temp,mod);
   for j=i+1:r
+    if temp(j,i)==0; continue;endif;
     k=mat(j,i)*modinv(mat(i,i),mod);
     k=builtin("mod",k,mod);
     temp=builtin("mod",sub_mult_row(temp,j,i,k),mod);
