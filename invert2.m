@@ -33,7 +33,7 @@ function mat=cofactor(matrix,m)
 mat=zeros(r,c);
 for i=1:r
   for j=1:c
-    sign=(-1)^(i+j)
+    sign=(-1)^(i+j);
     mat(i,j)=mod(sign*minormod(matrix,i,j,m),m);
   endfor
  endfor
