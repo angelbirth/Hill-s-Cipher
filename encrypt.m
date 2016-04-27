@@ -23,15 +23,16 @@
 ## Created: 2016-04-04
 
 function [img] = encrypt (image, key)
+if size(key)!=[3 3];error("key must be 3z3 matrix");endif
+if isequal(class(key),"char");key=double(key);endif
+if ~isequal(class(key),"double");error ("must have a double key");endif
 [r c d]=size(image);
 img=zeros(r,c,d,"uint8");
 for i=1:r
   for j=1:c
-    block=double([image(i,j,1);image(i,j,2);image(i,j,3)]);
-    newblock=mod(double(key)*block,256);
-    for k=1:3
-      img(i,j,k)=uint8(newblock(k));
-    endfor
+    block=double(reshape(image(i,j,:),3,1));
+    newblock=mod(key*block,256);
+    img(i,j,:)=uint8(newblock(:));
   endfor
 endfor
 endfunction
