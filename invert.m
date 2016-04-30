@@ -53,3 +53,4 @@ function mat=sub_mult_row(mat,minuend, subtrahend,k)
   sub=mat(subtrahend,:)*k;
   mat(minuend,:)-=sub;
 endfunction
+
