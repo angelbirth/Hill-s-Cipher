@@ -32,10 +32,6 @@ else enc=zeros(l,1);
 endif
 enc(1:l)=img(:);
 enc=reshape(enc,3,[]);
-#for i=1:3:numel(enc)-2
-#  block=mod(key*enc(i:i+2),256);
-#  enc(i:i+2)=block(:);
-#endfor
 enc=mod(key*enc,256);
 enc=uint8(reshape(enc(1:l),r,c));
 if nargout==2;time=toc;endif

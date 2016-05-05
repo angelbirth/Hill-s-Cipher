@@ -41,17 +41,4 @@ endfor
 if nargout==2
   time=toc;
 endif
-#for i=1:l
-#  sub=[i;l+i;2*l+i];
-#  block=double(image(sub));
-#  block=mod(key*block,256);
-#  img(sub)=block(:);
-#endfor
-#for i=1:r
-#  for j=1:c
-#    block=double(reshape(image(i,j,:),3,1));
-#    newblock=mod(key*block,256);
-#    img(i,j,:)=uint8(newblock(:));
-#  endfor
-#endfor
 endfunction
