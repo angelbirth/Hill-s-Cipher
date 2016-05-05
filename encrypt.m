@@ -22,17 +22,36 @@
 ## Author: Engelbert Eric <ric@HP-G4-1314AU>
 ## Created: 2016-04-04
 
-function [img] = encrypt (image, key)
+function [img,time] = encrypt (image, key)
+tic
 if size(key)!=[3 3];error("key must be 3z3 matrix");endif
 if isequal(class(key),"char");key=double(key);endif
 if ~isequal(class(key),"double");error ("must have a double key");endif
 [r c d]=size(image);
+l=r*c;
 img=zeros(r,c,d,"uint8");
-for i=1:r
-  for j=1:c
-    block=double(reshape(image(i,j,:),3,1));
-    newblock=mod(key*block,256);
-    img(i,j,:)=uint8(newblock(:));
-  endfor
+temp=zeros(d,l);
+for i=1:d
+  temp(i,:)=reshape(image(:,:,i),1,[]);
 endfor
+temp=mod(key*temp,256);
+for i=1:d
+  img(:,:,i)=reshape(temp(i,:),r,c);
+endfor
+if nargout==2
+  time=toc;
+endif
+#for i=1:l
+#  sub=[i;l+i;2*l+i];
+#  block=double(image(sub));
+#  block=mod(key*block,256);
+#  img(sub)=block(:);
+#endfor
+#for i=1:r
+#  for j=1:c
+#    block=double(reshape(image(i,j,:),3,1));
+#    newblock=mod(key*block,256);
+#    img(i,j,:)=uint8(newblock(:));
+#  endfor
+#endfor
 endfunction

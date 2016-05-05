@@ -22,19 +22,22 @@
 ## Author: Engelbert Eric <ric@HP-G4-1314AU>
 ## Created: 2016-05-04
 
-function [enc] = encrypt_gray (img, key)
+function [enc,time] = encrypt_gray (img, key)
+if nargout==2;tic;endif
 if ~isgray(img);error("Must be a grayscale image");endif
 [r c]=size(img);
 l=r*c;
-if mod(l,3)==1
-  enc=zeros(l+2,1);
+if mod(l,3)==1; enc=zeros(l+2,1);
 elseif mod(l,3)==2; enc=zeros(l+1,1);
 else enc=zeros(l,1);
 endif
-enc(1:l)=img(1:l);
-for i=1:3:numel(enc)-2
-  block=mod(key*enc(i:i+2),256);
-  enc(i:i+2)=block(:);
-endfor
+enc(1:l)=img(:);
+enc=reshape(enc,3,[]);
+#for i=1:3:numel(enc)-2
+#  block=mod(key*enc(i:i+2),256);
+#  enc(i:i+2)=block(:);
+#endfor
+enc=mod(key*enc,256);
 enc=uint8(reshape(enc(1:l),r,c));
+if nargout==2;time=toc;endif
 endfunction
